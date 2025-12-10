@@ -1,40 +1,18 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date: 08.12.2025 11:02:31
--- Design Name: 
--- Module Name: duty - Behavioral
--- Project Name: 
--- Target Devices: 
--- Tool Versions: 
--- Description: 
--- 
--- Dependencies: 
--- 
--- Revision:
--- Revision 0.01 - File Created
--- Additional Comments:
--- 
-----------------------------------------------------------------------------------
-
-
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 use IEEE.NUMERIC_STD.ALL;
-
 
 entity duty is
     generic (
         bit_colours : natural := 4   --Número máx de colores = 2^bit_colours
         );
         
-    Port ( 
-        up_bttn   : in STD_LOGIC;
-        down_bttn : in STD_LOGIC;
-        CLK       : in STD_LOGIC;
-        RST       : in STD_LOGIC;
-        duty      : out STD_LOGIC_VECTOR ( bit_colours-1 downto 0)
+    port ( 
+        up_bttn     : in STD_LOGIC;
+        down_bttn   : in STD_LOGIC;
+        CLK         : in STD_LOGIC;
+        RST         : in STD_LOGIC;
+        duty        : out STD_LOGIC_VECTOR ( bit_colours-1 downto 0)
         );
 end duty;
 
@@ -56,5 +34,4 @@ begin
     end process;
     
 duty <= std_logic_vector( to_unsigned( d , bit_colours ));
-
 end Behavioral;

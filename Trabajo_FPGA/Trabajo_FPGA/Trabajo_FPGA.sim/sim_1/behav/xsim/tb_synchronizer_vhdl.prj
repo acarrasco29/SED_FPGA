@@ -1,0 +1,7 @@
+# compile vhdl design source files
+vhdl xil_defaultlib  \
+"../../../../Trabajo_FPGA.srcs/sources_1/imports/Trabajo_FPGA/SYNCHRNZR.vhd" \
+"../../../../Trabajo_FPGA.srcs/sim_1/new/tb_synchrnzr.vhd" \
+
+# Do not sort compile order
+nosort

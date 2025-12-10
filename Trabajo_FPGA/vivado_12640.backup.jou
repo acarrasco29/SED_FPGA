@@ -1,0 +1,55 @@
+#-----------------------------------------------------------
+# Vivado v2025.1 (64-bit)
+# SW Build 6140274 on Thu May 22 00:12:29 MDT 2025
+# IP Build 6138677 on Thu May 22 03:10:11 MDT 2025
+# SharedData Build 6139179 on Tue May 20 17:58:58 MDT 2025
+# Start of session at: Tue Dec  9 11:28:17 2025
+# Process ID         : 10336
+# Current directory  : C:/Users/alvar/Documents/GitHub/SED_FPGA/Trabajo_FPGA
+# Command line       : vivado.exe -gui_launcher_event rodinguilauncherevent20140 C:\Users\alvar\Documents\GitHub\SED_FPGA\Trabajo_FPGA\Trabajo_FPGA.xpr
+# Log file           : C:/Users/alvar/Documents/GitHub/SED_FPGA/Trabajo_FPGA/vivado.log
+# Journal file       : C:/Users/alvar/Documents/GitHub/SED_FPGA/Trabajo_FPGA\vivado.jou
+# Running On         : LAPTOP-N4MLAD3R
+# Platform           : Windows Server 2016 or Windows 10
+# Operating System   : 26100
+# Processor Detail   : 11th Gen Intel(R) Core(TM) i7-1165G7 @ 2.80GHz
+# CPU Frequency      : 2803 MHz
+# CPU Physical cores : 4
+# CPU Logical cores  : 8
+# Host memory        : 16930 MB
+# Swap memory        : 1073 MB
+# Total Virtual      : 18004 MB
+# Available Virtual  : 7012 MB
+#-----------------------------------------------------------
+start_gui
+open_project C:/Users/alvar/Documents/GitHub/SED_FPGA/Trabajo_FPGA/Trabajo_FPGA.xpr
+update_compile_order -fileset sources_1
+# Disabling source management mode.  This is to allow the top design properties to be set without GUI intervention.
+set_property source_mgmt_mode None [current_project]
+set_property top SYNCHRNZR [current_fileset]
+# Re-enabling previously disabled source management mode.
+set_property source_mgmt_mode All [current_project]
+update_compile_order -fileset sources_1
+set_property SOURCE_SET sources_1 [get_filesets sim_1]
+close [ open C:/Users/alvar/Documents/GitHub/SED_FPGA/Trabajo_FPGA/Trabajo_FPGA.srcs/sim_1/new/tb_synchrnzr.vhd w ]
+add_files -fileset sim_1 C:/Users/alvar/Documents/GitHub/SED_FPGA/Trabajo_FPGA/Trabajo_FPGA.srcs/sim_1/new/tb_synchrnzr.vhd
+update_compile_order -fileset sim_1
+# Disabling source management mode.  This is to allow the top design properties to be set without GUI intervention.
+set_property source_mgmt_mode None [current_project]
+set_property top tb_synchrnzr [get_filesets sim_1]
+set_property top_lib xil_defaultlib [get_filesets sim_1]
+# Re-enabling previously disabled source management mode.
+set_property source_mgmt_mode All [current_project]
+update_compile_order -fileset sim_1
+update_compile_order -fileset sim_1
+update_compile_order -fileset sim_1
+# Disabling source management mode.  This is to allow the top design properties to be set without GUI intervention.
+set_property source_mgmt_mode None [current_project]
+set_property top tb_synchronizer [get_filesets sim_1]
+set_property top_lib xil_defaultlib [get_filesets sim_1]
+# Re-enabling previously disabled source management mode.
+set_property source_mgmt_mode All [current_project]
+update_compile_order -fileset sim_1
+launch_simulation
+source tb_synchronizer.tcl
+close_sim

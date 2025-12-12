@@ -1,4 +1,3 @@
-
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
 
@@ -14,9 +13,11 @@ entity fsm is
         down_bttn   : in STD_LOGIC;
         slct_bttn   : in std_logic;
         
-        duty_R : out std_logic_vector (2 downto 0);
-        duty_G : out std_logic_vector (2 downto 0);
-        duty_B : out std_logic_vector (2 downto 0)
+        light  : out std_logic_vector (3 downto 0);
+        
+        duty_R : out std_logic_vector (bit_colours-1 downto 0);
+        duty_G : out std_logic_vector (bit_colours-1 downto 0);
+        duty_B : out std_logic_vector (bit_colours-1 downto 0)
         
     );
 end fsm;
@@ -24,9 +25,9 @@ end fsm;
 architecture Behavioral of fsm is
 
     type states is (S0, SR, SG, SB);
+    signal d_R, d_G, d_B : std_logic_vector (bit_colours-1 downto 0);
     signal current_state : states := S0;
     signal next_state    : states;
-    signal d_R, d_G, d_B : std_logic_vector (2 downto 0);
     signal up_bttn_R, up_bttn_G, up_bttn_B, down_bttn_R, down_bttn_G, down_bttn_B : STD_LOGIC := '0';
 
     component duty
@@ -126,6 +127,7 @@ begin
                 down_bttn_G <= '0';
                 up_bttn_B <= '0';
                 down_bttn_B <= '0';
+                light  <= (1 => '1', others => '0');
             when SG =>
                 up_bttn_R <= '0';
                 down_bttn_R <= '0';
@@ -133,6 +135,7 @@ begin
                 down_bttn_G <= up_bttn;
                 up_bttn_B <= '0';
                 down_bttn_B <= '0';
+                light  <= (2 => '1', others => '0');
             when SB =>
                 up_bttn_R <= '0';
                 down_bttn_R <= '0';
@@ -140,6 +143,7 @@ begin
                 down_bttn_G <= '0';
                 up_bttn_B <= up_bttn;
                 down_bttn_R <= up_bttn;
+                light  <= (3 => '1', others => '0');
             when others =>
                 up_bttn_R <= '0';
                 down_bttn_R <= '0';
@@ -147,6 +151,7 @@ begin
                 down_bttn_G <= '0';
                 up_bttn_B <= '0';
                 down_bttn_B <= '0';
+                light  <= (0 => '1', others => '0');
         end case;
      end process;
      

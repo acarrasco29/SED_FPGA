@@ -10,6 +10,8 @@ entity TOP is
         down_bttn   : in STD_LOGIC;
         slct_bttn   : in std_logic;
         
+        light  : out std_logic_vector (3 downto 0);
+        
         RGB         : out std_logic_vector (2 downto 0);  
         RGB_n       : out std_logic_vector (2 downto 0) 
     );
@@ -54,9 +56,11 @@ architecture Behavioral of TOP is
             down_bttn   : in STD_LOGIC;
             slct_bttn   : in std_logic;
             
-            duty_R      : out std_logic_vector (2 downto 0);
-            duty_G      : out std_logic_vector (2 downto 0);
-            duty_B      : out std_logic_vector (2 downto 0)
+            light  : out std_logic_vector (3 downto 0);
+            
+            duty_R : out std_logic_vector (bit_colours-1 downto 0);
+            duty_G : out std_logic_vector (bit_colours-1 downto 0);
+            duty_B : out std_logic_vector (bit_colours-1 downto 0)
         
         );
      end component;
@@ -116,11 +120,14 @@ begin
             up_bttn    => up_stp,
             down_bttn  => down_stp,
             slct_bttn  => slct_edge,
+            
+            light      => light,
            
             duty_R     => duty_R,
             duty_G     => duty_G,
             duty_B     => duty_B
     );
+    
     inst_PWM : PWM PORT MAP (
             CLK     => CLK,
             RST     => RST,
@@ -130,7 +137,5 @@ begin
             RGB     => RGB,
             RGB_n   => RGB_n
     );
-    
-
 
 end Behavioral;

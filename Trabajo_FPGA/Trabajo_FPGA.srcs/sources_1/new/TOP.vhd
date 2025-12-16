@@ -4,7 +4,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 entity TOP is
     port(
         CLK         : in  std_logic; 
-        RST         : in  std_logic; 
+        RST_n         : in  std_logic; 
         
         up_bttn     : in STD_LOGIC;
         down_bttn   : in STD_LOGIC;
@@ -50,7 +50,7 @@ architecture Behavioral of TOP is
      component FSM
         port (
             CLK         : in STD_LOGIC;
-            RST         : in STD_LOGIC;
+            RST_n         : in STD_LOGIC;
             
             up_bttn     : in STD_LOGIC;
             down_bttn   : in STD_LOGIC;
@@ -68,7 +68,7 @@ architecture Behavioral of TOP is
      component PWM
         port (
             CLK     : in  std_logic; 
-            RST     : in  std_logic; 
+            RST_n     : in  std_logic; 
             duty_R  : in  std_logic_vector(bit_colours-1 downto 0); 
             duty_G  : in  std_logic_vector(bit_colours-1 downto 0); 
             duty_B  : in  std_logic_vector(bit_colours-1 downto 0);    
@@ -115,7 +115,7 @@ begin
     
     inst_FSM : FSM PORT MAP (
             CLK        => CLK,
-            RST        => RST,
+            RST_n        => RST_n,
             
             up_bttn    => up_stp,
             down_bttn  => down_stp,
@@ -130,7 +130,7 @@ begin
     
     inst_PWM : PWM PORT MAP (
             CLK     => CLK,
-            RST     => RST,
+            RST_n     => RST_n,
             duty_R  => duty_R,
             duty_G  => duty_G,
             duty_B  => duty_B,

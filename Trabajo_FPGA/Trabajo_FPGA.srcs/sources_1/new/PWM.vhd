@@ -12,7 +12,7 @@ entity PWM is
  
     port( 
         CLK         : in  std_logic; 
-        RST         : in  std_logic; 
+        RST_n         : in  std_logic; 
         duty_R      : in  std_logic_vector(bit_colours-1 downto 0); 
         duty_G      : in  std_logic_vector(bit_colours-1 downto 0); 
         duty_B      : in  std_logic_vector(bit_colours-1 downto 0);    
@@ -33,10 +33,10 @@ architecture behavioral of PWM is
  
 begin
   
-    process(CLK, RST) 
+    process(CLK, RST_n) 
     begin
  
-        if RST = '1' then 
+        if RST_n = '0' then 
             counter <= (others => '0'); 
         elsif rising_edge(CLK) then 
             if counter = MAX_VAL then 

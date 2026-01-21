@@ -12,7 +12,7 @@ architecture tb of tb_fsm is
             bit_colours : natural :=4
         );
         port (CLK       : in std_logic;
-              RST       : in std_logic;
+              RST_n       : in std_logic;
               
               up_bttn   : in std_logic;
               down_bttn : in std_logic;
@@ -26,7 +26,7 @@ architecture tb of tb_fsm is
     end component;
 
     signal CLK       : std_logic := '0';
-    signal RST       : std_logic := '0';
+    signal RST_n       : std_logic := '0';
     
     signal up_bttn   : std_logic := '0';
     signal down_bttn : std_logic := '0';
@@ -40,17 +40,17 @@ architecture tb of tb_fsm is
     signal duty_G    : std_logic_vector (bit_colours-1 downto 0) := (others => '0');
     signal duty_B    : std_logic_vector (bit_colours-1 downto 0) := (others => '0');
     
-    constant TbPeriod : time := 100 ns;
-    signal TbClock : std_logic := '0';
+    constant TbPeriod : time := 10 ns;
     
-    type light_array is array(0 to 2) of std_logic_vector(3 downto 0);
-    constant lights : light_array := ("0010", "0100", "1000");
+    type light_array is array(0 to 3) of std_logic_vector(3 downto 0);
+    constant lights : light_array := ("0001", "0010", "0100", "1000");
 
 begin
 
     uut : fsm
+    generic map (bit_colours => bit_colours)
     port map (CLK       => CLK,
-              RST       => RST,
+              RST_n       => RST_n,
               up_bttn   => up_bttn,
               down_bttn => down_bttn,
               slct_bttn => slct_bttn,
@@ -59,42 +59,63 @@ begin
               duty_G    => duty_G,
               duty_B    => duty_B
               );
-
-    TbClock <= not TbClock after TbPeriod/2;
-    CLK <= TbClock;
+    
+    CLK <= not CLK after TbPeriod/2;
 
     stimuli : process
+    
+        variable i_ligth : integer := 0;
+    
     begin
-        RST <= '1';             
-        wait for 100 ns;
-        assert light = "0001" report "[FAILED] EL led del estado 0 no esta encendido, no ha ido el RESET"
-        severity failure;
+        RST_n <= '0';             
+        wait until rising_edge (CLK);
+        wait until rising_edge (CLK);
+        RST_n <= '1';
                 
-        RST <= '0';
-        wait for 100 ns;
-
-        for i in 0 to light'length*3+2 loop
+        wait until rising_edge (CLK);
+        
+        assert light = lights(0) 
+            report "[FAILED] EL led del estado 0 no esta encendido, no ha ido el RESET"
+            severity failure; 
+        
+        wait until rising_edge (CLK);
+        
+        for i in 1 to 8 loop
             slct_bttn <= '1';
-            wait until TbClock = '0';
+            wait until rising_edge (CLK);
             slct_bttn <= '0';
-            wait for 1000 ns;
+            wait until rising_edge (CLK);
+            
+            if i_ligth = 0 then
+                i_ligth := 1;
+            elsif i_ligth = 3 then
+                i_ligth := 1;
+            else
+                i_ligth := i_ligth + 1;
+            end if;
               
-            assert light = lights(i mod lights'length)
-            report  "[Failed]: error al pasar del estado " & integer'image((i) mod lights'length) &
-            " al " & integer'image((i+1) mod lights'length)
-            severity failure;
+            assert light = lights(i_ligth)
+                report  "[Failed]: error al pasar del estado " & integer'image((i) mod lights'length) &
+                    " al " & integer'image((i+1) mod lights'length)
+                severity failure;
         end loop;
 
-        RST <= '1';             
-        wait for 100 ns;
-        RST <= '0';             
-        wait for 100 ns;
-        assert light = "0001" report "[FAILED] EL led del estado 0 no esta encendido, no ha ido el RESET"
-        severity failure;
-                
+        RST_n <= '0';             
+        wait until rising_edge (CLK);
+        wait until rising_edge (CLK);        
+        RST_n <= '1';
+                     
+        wait until rising_edge (CLK);
+        
+        assert light = lights(0) 
+            report "[FAILED] EL led del estado 0 no esta encendido, no ha ido el RESET"
+            severity failure;
+            
+        wait for 3*TbPeriod;
+        
         assert false
-        report "[PASSED] Todo bien capo"
-        severity failure;
+            report "[PASSED] Todo bien capo"
+            severity failure;
 
     end process;
 
